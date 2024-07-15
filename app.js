@@ -34,15 +34,14 @@ app.use(express.static(path.join(__dirname,"/public")));
 
 const sessionOptions = {
   secret: "mysupersecretcode",
-  resave:false,
+  resave: false,
   saveUninitialized: true,
-  cookie:{
+  cookie: {
     expires: Date.now() + 7*24*60*60*1000,
     maxAge: 7*24*60*60*1000,
-    httpOnly:true,
+    httpOnly: true,
   },
 };
-
 
 app.get("/", (req, res) => {
   res.send("Hi, I am root");
@@ -51,24 +50,25 @@ app.get("/", (req, res) => {
 app.use(session(sessionOptions));
 app.use(flash());
 
-app.use((req, res,next) =>{
+app.use((req, res, next) => {
   res.locals.success = req.flash("success");
-  console.log(success);
+  res.locals.error = req.flash("error");
+  
   next();
 });
 
 app.use("/listings", listings);
-app.use("'listings/:id/reviews" , reviews);
- 
-app.all("*", (req,res,next) => {
+app.use("/listings/:id/reviews", reviews);  // Corrected path
+
+app.all("*", (req, res, next) => {
   next(new ExpressError(404, "page not found"));
 });
 
-app.use((err,req,res,next)=>{
-  let {statusCode = 500 , message = "Something went wrong!" } = err ;
-  res.status(statusCode).render("errors.ejs" , {message});
-  // res.status(statusCode).send(message);
+app.use((err, req, res, next) => {
+  let { statusCode = 500, message = "Something went wrong!" } = err;
+  res.status(statusCode).render("errors.ejs", { message });
 });
+
 app.listen(8080, () => {
   console.log("server is listening to port 8080");
 });

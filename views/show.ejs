@@ -23,14 +23,14 @@
  </div>
   <div class="btns mb-3">
   <a href="/listings/<%= listing._id %>/edit" class="btn btn-dark col-1 offset-3 edit-btn">Edit</a>
-    <form method="POST" action="/listings/<%=listing._id%>?_method=DELETE">
+    <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE">
       <button class="btn btn-dark offset-3 del-btn">Delete</button>
     </form>
  </div>
  <div class="col-8 offset-3">
   <hr>
   <h4>Leave a review</h4>
-  <form action="/listings/ <%= listing.id %>/reviews" method="POST" class="mb-3 needs-validation" novalidate>
+  <form action="/listings/<%= listing._id %>/reviews" method="POST" class="mb-3 needs-validation" novalidate>
     <div class="mb-3 mt-3">
       <label for="rating" class="form-label">Rating</label>
       <input type="range" min="1" max="5" id="rating" name="review[rating]" class="form-range" step="1">
@@ -57,15 +57,10 @@
             <form class= "mb-3"
              action="/listings/<%= listing._id %>/reviews/<%= review._id%>?_method=DELETE" method="post">
              <button class="btn btn-sm btn-dark">Delete</button>
-
             </form>
           </div>
         </div>
        <% } %> 
   </div>
-    </div>
+  </div>
 </div>
-
-   
- 
-
